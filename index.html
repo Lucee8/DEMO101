@@ -2429,9 +2429,16 @@ function renderNotFound(app) {
 // ========================
 // INIT
 // ========================
+// INIT
 initTheme();
 updateThemeIcon();
-navigate(location.pathname + location.search, false);
+
+// Fix: treat any unrecognized path as home
+const initPath = location.pathname + location.search;
+const knownPaths = ['/', '/products', '/cart', '/checkout', '/login', '/wishlist', '/dashboard', '/admin'];
+const isKnown = knownPaths.some(p => initPath === p || initPath.startsWith('/products/'));
+
+navigate(isKnown ? initPath : '/', false);
 updateBadges();
 updateMobileUserLink();
 </script>
